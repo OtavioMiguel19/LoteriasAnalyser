@@ -13,6 +13,13 @@ fun main(args: Array<String>) {
     runApplication<LotofacilApplication>(*args)
 
 //    val reader = LotofacilCsvGameReader("C:\\Projetos\\Lotofacil\\src\\main\\resources\\csv\\lotofacil\\20-08-22.csv")
-    println("Lotofacil: " + SorteadorUseCase(LotofacilApiGameReader().read()).sortear())
-    println("Megasena: " + SorteadorUseCase(MegasenaApiGameReader().read()).sortear())
+//    println("Lotofacil: " + SorteadorUseCase(LotofacilApiGameReader().read()).sortear())
+//    println("Megasena: " + SorteadorUseCase(MegasenaApiGameReader().read()).sortear())
+
+    val usecase = SorteadorUseCase(LotofacilApiGameReader().read())
+
+    val games = usecase.sortearWithNoRepetitions(12)
+    for (game in games) {
+        println(game)
+    }
 }

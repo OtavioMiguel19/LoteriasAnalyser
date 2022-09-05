@@ -7,6 +7,7 @@ import kotlin.random.Random
 class SorteadorUseCase(gameAnalysis: GameAnalysis) {
     private val valores: MutableList<Int> = ArrayList()
     private val referenceGame: AbstractGame
+    private val analysis: GameAnalysis;
 
     init {
         for (number in gameAnalysis.recoverAllNumbers()) {
@@ -18,9 +19,10 @@ class SorteadorUseCase(gameAnalysis: GameAnalysis) {
         }
 
         referenceGame = gameAnalysis.recoverAllGames().first()
+        analysis = gameAnalysis
     }
 
-    fun sortear() : Set<Int> {
+    fun sortear(): Set<Int> {
 
         val valoresSorteados: MutableSet<Int> = HashSet()
         val random: Random = Random
@@ -30,5 +32,18 @@ class SorteadorUseCase(gameAnalysis: GameAnalysis) {
         }
 
         return valoresSorteados.sorted().toSet()
+    }
+
+    fun sortearWithNoRepetitions(qty: Int): Set<Set<Int>> {
+        val games: MutableSet<Set<Int>> = HashSet()
+
+        while (games.size < qty) {
+            val game = sortear()
+            if (analysis.recoverAllGames().stream().noneMatch { game.containsAll(it.numbers) }) {
+                games.add(game)
+            }
+        }
+
+        return games;
     }
 }
